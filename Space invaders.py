@@ -23,10 +23,17 @@ sy=pygame.transform.rotate(sy,90)
 bulletshoot=pygame.mixer.Sound("Lesson 5/images/Gun+Silencer.mp3")
 bulletcollision=pygame.mixer.Sound("Lesson 5/images/Grenade+1.mp3")
 
+healthfont=pygame.font.SysFont("bookmanoldstyle",25)
+winfont=pygame.font.SysFont("comicsans",100)
+
 yellowbullet=[]
+redbullet=[]
 
+redhp=10
+yellowhp=10
 
-
+gameover=False
+winnertext=""
 
 
 
@@ -63,14 +70,43 @@ while run:
                 bullet = pygame.Rect(yellow.x+100, yellow.y+47, 20,5)
                 yellowbullet.append(bullet)
                 bulletshoot.play()
+            if event.key == pygame.K_RCTRL:
+                bullet = pygame.Rect(red.x-15, red.y+47, 20, 5)
+                redbullet.append(bullet)
+                bulletshoot.play()
     screen.blit(bg,(0,0))
     pygame.draw.rect(screen, "black", border)
     screen.blit(sr,red)
     screen.blit(sy,yellow)
     keys_pressed = pygame.key.get_pressed()
+    winnertext=""
     for bullet in yellowbullet:
-        pygame.draw.rect(screen,"black", bullet)
+        pygame.draw.rect(screen,"yellow", bullet)
         bullet.x+=2
+        if red.colliderect(bullet):
+            redhp-=1
+            yellowbullet.remove(bullet)
+            if redhp<=0:
+                winnertext="yellow wins!"
+                gameover=True
+
+    for bullet in redbullet:
+        pygame.draw.rect(screen,"red", bullet)
+        bullet.x-=2
+        if yellow.colliderect(bullet):
+            yellowhp-=1
+            redbullet.remove(bullet)
+            if yellowhp<=0:
+                winnertext="red wins!"
+                gameover=True
+    if gameover==True:
+        wintext=winfont.render(winnertext, True,"orange")
+        screen.blit(wintext,(500,400))
+        pygame.display.update()
+    redhealth=healthfont.render("health = "+str(redhp),True,"red")
+    yellowhealth=healthfont.render("health = "+str(yellowhp),True,"yellow")
+    screen.blit(redhealth,(1000,100))
+    screen.blit(yellowhealth,(50,100))
     ym()
     rm()
     pygame.display.update()
