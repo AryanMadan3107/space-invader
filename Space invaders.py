@@ -86,16 +86,17 @@ while run:
         if red.colliderect(bullet):
             redhp-=1
             yellowbullet.remove(bullet)
+            bulletcollision.play()
             if redhp<=0:
                 winnertext="yellow wins!"
                 gameover=True
-
     for bullet in redbullet:
         pygame.draw.rect(screen,"red", bullet)
         bullet.x-=2
         if yellow.colliderect(bullet):
             yellowhp-=1
             redbullet.remove(bullet)
+            bulletcollision.play
             if yellowhp<=0:
                 winnertext="red wins!"
                 gameover=True
