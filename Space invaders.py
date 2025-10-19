@@ -104,6 +104,9 @@ while run:
         wintext=winfont.render(winnertext, True,"orange")
         screen.blit(wintext,(500,400))
         pygame.display.update()
+        pygame.time.delay(3000)
+        pygame.quit()
+        break
     redhealth=healthfont.render("health = "+str(redhp),True,"red")
     yellowhealth=healthfont.render("health = "+str(yellowhp),True,"yellow")
     screen.blit(redhealth,(1000,100))
